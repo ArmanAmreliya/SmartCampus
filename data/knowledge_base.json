@@ -1,0 +1,118 @@
+[
+  {
+    "id": "rule_001",
+    "title": "College Entry Timing",
+    "category": "Rules",
+    "content": "Students must enter the college campus before 10:30 AM on working days."
+  },
+  {
+    "id": "rule_002",
+    "title": "ID Card Requirement",
+    "category": "Rules",
+    "content": "All students must carry their college ID card while on campus."
+  },
+  {
+    "id": "rule_003",
+    "title": "Mobile Phone Usage",
+    "category": "Rules",
+    "content": "Mobile phones are not allowed inside classrooms without faculty permission."
+  },
+  {
+    "id": "rule_004",
+    "title": "Library Discipline",
+    "category": "Rules",
+    "content": "Students must maintain silence inside the library at all times."
+  },
+  {
+    "id": "rule_005",
+    "title": "Dress Code",
+    "category": "Rules",
+    "content": "Students must follow the appropriate college dress code while attending classes."
+  },
+  {
+    "id": "rule_006",
+    "title": "Attendance Requirement",
+    "category": "Rules",
+    "content": "A minimum of 75 percent attendance is required to appear in examinations."
+  },
+  {
+    "id": "rule_007",
+    "title": "Exam Conduct",
+    "category": "Rules",
+    "content": "Students must not use unfair means during examinations."
+  },
+  {
+    "id": "rule_008",
+    "title": "Campus Cleanliness",
+    "category": "Rules",
+    "content": "Students must keep the campus clean and use dustbins properly."
+  },
+  {
+    "id": "rule_009",
+    "title": "Late Submission Policy",
+    "category": "Rules",
+    "content": "Late submission of assignments is allowed only with valid reasons and faculty approval."
+  },
+  {
+    "id": "rule_010",
+    "title": "Lab Safety",
+    "category": "Rules",
+    "content": "Students must follow all safety instructions while working in laboratories."
+  },
+
+  {
+    "id": "faq_001",
+    "title": "Office Working Hours",
+    "category": "FAQ",
+    "content": "The college office is open from 10:30 AM to 5 PM on working days."
+  },
+  {
+    "id": "faq_002",
+    "title": "Library Membership",
+    "category": "FAQ",
+    "content": "Library membership is automatically provided to all enrolled students."
+  },
+  {
+    "id": "faq_003",
+    "title": "Scholarship Information",
+    "category": "FAQ",
+    "content": "Students can apply for scholarships through the Government scholarship portal."
+  },
+  {
+    "id": "faq_004",
+    "title": "Lost ID Card",
+    "category": "FAQ",
+    "content": "In case of a lost ID card, students must apply for a duplicate at the Student Section."
+  },
+  {
+    "id": "faq_005",
+    "title": "Bonafide Certificate",
+    "category": "FAQ",
+    "content": "Bonafide certificates can be requested from the Student Section and are issued within two working days."
+  },
+
+  {
+    "id": "app_001",
+    "title": "Faculty Appointment Booking",
+    "category": "Appointments",
+    "content": "Students must book faculty appointments at least one day in advance through the portal."
+  },
+  {
+    "id": "app_002",
+    "title": "Faculty Meeting Timings",
+    "category": "Appointments",
+    "content": "Faculty meetings are generally conducted between 10 AM and 4 PM on working days."
+  },
+  {
+    "id": "app_003",
+    "title": "Emergency Appointments",
+    "category": "Appointments",
+    "content": "Emergency appointments may be allowed only with prior permission from the faculty."
+  },
+  {
+    "id": "app_004",
+    "title": "Faculty Leave Policy",
+    "category": "Appointments",
+    "content": "If a faculty member is on leave, appointments must be rescheduled after their return."
+  }
+]
