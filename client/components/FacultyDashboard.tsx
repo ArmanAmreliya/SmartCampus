@@ -4,6 +4,7 @@ import { Edit2, Megaphone, Check, Calendar, Settings, CheckCircle2, XCircle, Clo
 import { ScheduleEditor } from './ScheduleEditor';
 import { storageService } from '../services/storageService';
 import { generateChatResponse } from '../services/geminiService';
+import { getAvailability } from '../services/availabilityService';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 interface FacultyDashboardProps {
@@ -44,6 +45,7 @@ export const FacultyDashboard: React.FC<FacultyDashboardProps> = ({
   
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [myBroadcasts, setMyBroadcasts] = useState<BroadcastMessage[]>([]);
+  const [availability, setAvailability] = useState<any>(null);
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     { id: '0', role: 'model', text: `Hello ${currentFaculty.name}! I am your AI Teaching Assistant. I can help you draft emails to students, generate quiz questions, or summarize leave requests.`, timestamp: Date.now() }
@@ -58,6 +60,12 @@ export const FacultyDashboard: React.FC<FacultyDashboardProps> = ({
     const allBroadcasts = storageService.getBroadcasts();
     setMyBroadcasts(allBroadcasts.filter(b => b.facultyId === currentFaculty.id));
   }, [currentFaculty.id]);
+
+  useEffect(() => {
+    getAvailability()
+      .then(res => setAvailability(res.data))
+      .catch(err => console.log(err));
+  }, []);
 
   useEffect(() => {
     refreshData();
