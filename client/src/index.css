@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bgPrimary: var(--bgPrimary);
+  --color-bgSecondary: var(--bgSecondary);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accentHover: #27AE60;
+  --color-warning: #F39C12;
+  --color-error: #C0392B;
+  --color-textPrimary: var(--textPrimary);
+  --color-textSecondary: var(--textSecondary);
+  --color-border: var(--border);
+
+  --animate-blob: blob 10s infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(40px, -60px) scale(1.2); }
+    66% { transform: translate(-30px, 30px) scale(0.8); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+}
+
+:root {
+  --accent: #2ECC71;
+  --bgPrimary: #0f0f0f;
+  --bgSecondary: #1a1a1a;
+  --card: #242424;
+  --textPrimary: #E0E0E0;
+  --textSecondary: #A0A0A0;
+  --border: #333333;
+}
+
+html.light {
+  --bgPrimary: #f8fafc;
+  --bgSecondary: #f1f5f9;
+  --card: #ffffff;
+  --textPrimary: #1e293b;
+  --textSecondary: #64748b;
+  --border: #e2e8f0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bgPrimary);
+  color: var(--textPrimary);
+  overflow-x: hidden;
+  perspective: 1200px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bgSecondary); 
+}
+::-webkit-scrollbar-thumb {
+  background: #333; 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent); 
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.glass {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+html.light .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.15);
+}
+
+.text-glow {
+  text-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}

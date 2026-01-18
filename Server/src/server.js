@@ -1,13 +1,104 @@
-import dotenv from "dotenv";
+
+import express from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@as-integrations/express5';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { createServer } from 'http';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/use/ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import { connectDB } from './config/db.js';
+import { typeDefs, resolvers } from './graphql/index.js';
+import jwt from 'jsonwebtoken';
+import cron from 'node-cron';
+import { checkAndNotify } from './modules/notification/service.js';
+
 dotenv.config();
 
-import app from "./app.js";
-import { connectDB } from "./config/db.js";
+const startServer = async () => {
+  const app = express();
+  const httpServer = createServer(app);
 
-const PORT = process.env.PORT || 5000;
+  await connectDB();
 
-connectDB();
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-app.listen(PORT, () => {
-  console.log(` Server running on port ${PORT}`);
-});
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql',
+  });
+
+  const serverCleanup = useServer(
+    {
+      schema,
+      context: async (ctx, msg, args) => {
+        // Get the token from connectionParams
+        const { connectionParams } = ctx;
+        const token = connectionParams?.Authorization?.split(' ')[1] || connectionParams?.authorization?.split(' ')[1];
+        if (token) {
+          try {
+            const user = jwt.verify(token, process.env.JWT_SECRET);
+            return { user };
+          } catch (err) {
+            console.error("WS Token Verify Error:", err.message);
+          }
+        }
+        return {};
+      },
+    },
+    wsServer
+  );
+
+  const server = new ApolloServer({
+    schema,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+    ],
+  });
+
+  await server.start();
+
+  app.use(
+    '/graphql',
+    cors(),
+    bodyParser.json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        const token = req.headers.authorization?.split(' ')[1] || '';
+        try {
+          if (token) {
+            const user = jwt.verify(token, process.env.JWT_SECRET);
+            return { user };
+          }
+        } catch (e) {
+          // Invalid token
+        }
+        return {};
+      },
+    }),
+  );
+
+  // Setup Notification Cron
+  cron.schedule("*/2 * * * *", () => {
+    checkAndNotify();
+  });
+
+  const PORT = process.env.PORT || 5000;
+  await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
+  console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+  console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}/graphql`);
+};
+
+startServer();
