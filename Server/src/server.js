@@ -71,28 +71,37 @@ const startServer = async () => {
   await server.start();
 
   // Root route (for Render & browser check)
-app.get("/", (req, res) => {
-  res.status(200).json({
-    message: "SmartCampus backend is running 🚀"
+  app.get("/", (req, res) => {
+    res.status(200).json({
+      message: "SmartCampus backend is running 🚀"
+    });
   });
-});
 
-// Health check (for monitoring)
-app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "ok" });
-});
+  // Health check (for monitoring)
+  app.get("/api/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
+  });
 
+
+  // CORS configuration for all origins
+  const corsOptions = {
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://smart-campus-alpha.vercel.app"
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'apollo-require-preflight'],
+    exposedHeaders: ['Content-Type'],
+    maxAge: 86400, // 24 hours
+  };
+
+  // Apply CORS globally first
+  app.use(cors(corsOptions));
 
   app.use(
     '/graphql',
-    cors({
-  origin: [
-    "http://localhost:3000",
-    "https://smart-campus-alpha.vercel.app"
-  ],
-  credentials: true,
-})
-,
     bodyParser.json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
